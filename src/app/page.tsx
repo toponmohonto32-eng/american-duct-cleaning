@@ -110,11 +110,11 @@ function InfoRow({
   value: React.ReactNode;
 }) {
   return (
-    <tr className="border-b border-slate-100 transition-colors hover:bg-slate-50">
-      <td className="py-2.5 pr-4 text-sm font-medium text-slate-600 w-[240px] align-top">
+    <tr className="border-b border-slate-100 transition-all duration-200 hover:bg-emerald-50/30 hover:border-l-2 hover:border-l-emerald-400">
+      <td className="py-2.5 pr-4 text-sm font-medium text-slate-600 w-[240px] align-top bg-slate-50/80 border-r-2 border-r-slate-200">
         {label}
       </td>
-      <td className="py-2.5 text-sm text-slate-800">{value}</td>
+      <td className="py-2.5 text-sm text-slate-800 pl-4">{value}</td>
     </tr>
   );
 }
@@ -127,7 +127,7 @@ function ParaBlock({ children }: { children: React.ReactNode }) {
 
 function SdsTable({ children }: { children: React.ReactNode }) {
   return (
-    <div className="overflow-x-auto mb-4 rounded-xl border border-slate-200 shadow-sm">
+    <div className="overflow-x-auto mb-4 rounded-xl border border-slate-200 shadow-md hover:shadow-lg transition-shadow duration-300">
       <Table>
         {children}
       </Table>
@@ -144,7 +144,7 @@ function TableHeadStyled({
 }) {
   return (
     <TableHead
-      className={`text-white text-[11px] font-bold uppercase tracking-wider px-3 py-2.5 bg-gradient-to-r from-slate-800 to-slate-700 ${className || ""}`}
+      className={`text-white text-[11px] font-bold uppercase tracking-wider px-3 py-2.5 bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 border-l-2 border-l-emerald-400 ${className || ""}`}
     >
       {children}
     </TableHead>
@@ -172,14 +172,24 @@ function DataCell({
 function KVRow({
   label,
   value,
+  status,
 }: {
   label: string;
   value: string;
+  status?: "determined" | "applicable" | "relevant" | "available";
 }) {
+  const needsWarning = status && ["determined", "applicable", "relevant", "available"].includes(status);
   return (
-    <TableRow className="border-b border-slate-100 transition-colors hover:bg-slate-50/50">
+    <TableRow className="border-b border-slate-100 transition-all duration-200 hover:bg-slate-50/50 hover:border-l-2 hover:border-l-emerald-300">
       <DataCell highlight>{label}</DataCell>
-      <DataCell>{value}</DataCell>
+      <DataCell>
+        <span className="flex items-center gap-1.5">
+          {needsWarning && (
+            <AlertTriangle className="w-3 h-3 text-amber-500 shrink-0" />
+          )}
+          {value}
+        </span>
+      </DataCell>
     </TableRow>
   );
 }
@@ -188,10 +198,15 @@ export default function SafetyDataSheet() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [activeSection, setActiveSection] = useState("sec1");
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 600);
+
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0);
 
       const sectionEls = document.querySelectorAll("[data-section]");
       let current = "sec1";
@@ -217,6 +232,11 @@ export default function SafetyDataSheet() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-gray-100">
+      {/* ===== READING PROGRESS BAR ===== */}
+      <div
+        className="fixed top-0 left-0 h-[3px] z-[60] bg-gradient-to-r from-emerald-400 via-emerald-500 to-teal-400 shadow-[0_0_10px_rgba(16,185,129,0.5)] transition-[width] duration-150 ease-out"
+        style={{ width: `${scrollProgress}%` }}
+      />
       {/* ===== TOP STICKY NAV ===== */}
       <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/80 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-2.5 flex items-center justify-between">
@@ -349,57 +369,91 @@ export default function SafetyDataSheet() {
         {/* ===== MAIN CONTENT ===== */}
         <main className="flex-1 min-w-0">
           {/* Hero Banner */}
-          <div className="bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 rounded-2xl p-8 md:p-10 mb-8 shadow-xl shadow-slate-900/20 relative overflow-hidden">
-            {/* Decorative elements */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl" />
-            <div className="absolute top-4 right-4 w-32 h-32 border border-white/5 rounded-full" />
-            <div className="absolute bottom-8 right-20 w-20 h-20 border border-white/5 rounded-full" />
+          <div className="relative rounded-2xl mb-8 p-[2px] bg-[length:300%_300%] animate-[gradientBorder_4s_ease_infinite] [background-image:linear-gradient(135deg,#10b981,#3b82f6,#8b5cf6,#10b981,#3b82f6,#8b5cf6,#10b981)]">
+            <div className="bg-gradient-to-br from-slate-800 via-slate-900 to-slate-800 rounded-2xl p-6 sm:p-8 md:p-10 shadow-xl shadow-slate-900/20 relative overflow-hidden">
+              {/* Decorative elements */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl" />
+              <div className="absolute bottom-0 left-0 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl" />
+              <div className="absolute top-4 right-4 w-32 h-32 border border-white/5 rounded-full" />
+              <div className="absolute bottom-8 right-20 w-20 h-20 border border-white/5 rounded-full" />
 
-            <div className="relative flex flex-col md:flex-row items-center gap-6 md:gap-10">
-              <div className="shrink-0">
-                <div className="bg-white rounded-2xl p-4 shadow-lg shadow-black/20">
-                  <img
-                    src={LOGO_URL}
-                    alt="ADDIMAX Logo"
-                    className="h-20 md:h-24 w-auto"
-                  />
+              {/* DANGER Stamp */}
+              <div className="absolute top-4 right-4 md:top-6 md:right-6 z-10">
+                <div className="relative border-[3px] border-red-500 rounded-lg px-3 py-1.5 transform rotate-[12deg] shadow-[0_0_15px_rgba(239,68,68,0.3)] animate-[pulseGlow_2s_ease-in-out_infinite]">
+                  <span className="text-red-500 font-black text-sm md:text-base tracking-[0.15em] leading-none block">DANGER</span>
+                  <span className="text-red-500/70 text-[8px] md:text-[9px] tracking-[0.2em] font-bold leading-none block mt-0.5">HAZARDOUS</span>
                 </div>
               </div>
-              <div className="text-center md:text-left">
-                <p className="text-emerald-400 text-xs font-bold uppercase tracking-[0.2em] mb-2">
-                  Material Safety Data Sheet
-                </p>
-                <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">
-                  ADDIMAX Lithium Hydroxide
-                </h1>
-                <p className="text-slate-400 text-sm mb-4">
-                  According to Regulation (EC) No. 1907/2006 (REACH), Annex II
-                </p>
-                <div className="flex flex-wrap justify-center md:justify-start gap-2">
-                  <Badge className="bg-red-500/20 text-red-300 border-red-500/30 hover:bg-red-500/30">
-                    H302 - Harmful if swallowed
-                  </Badge>
-                  <Badge className="bg-orange-500/20 text-orange-300 border-orange-500/30 hover:bg-orange-500/30">
-                    H314 - Causes severe skin burns
-                  </Badge>
-                  <Badge className="bg-yellow-500/20 text-yellow-300 border-yellow-500/30 hover:bg-yellow-500/30">
-                    H318 - Serious eye damage
-                  </Badge>
+
+              {/* GHS Pictograms */}
+              <div className="absolute bottom-4 right-4 md:bottom-6 md:right-6 flex gap-2 z-10">
+                {/* GHS05 - Corrosion */}
+                <div className="w-12 h-12 md:w-14 md:h-14 bg-white rounded-md shadow-lg flex flex-col items-center justify-center border-2 border-red-300">
+                  <div className="w-5 h-5 md:w-6 md:h-6 flex items-center justify-center">
+                    <div className="w-4 h-3.5 border-2 border-gray-800 rounded-t-full relative">
+                      <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 flex gap-[1px]">
+                        <div className="w-0 h-0 border-l-[2px] border-r-[2px] border-b-[3px] border-transparent border-b-gray-800" />
+                        <div className="w-0 h-0 border-l-[2px] border-r-[2px] border-b-[3px] border-transparent border-b-gray-800" />
+                      </div>
+                    </div>
+                  </div>
+                  <span className="text-[6px] md:text-[7px] text-gray-600 font-bold mt-0.5">GHS05</span>
                 </div>
-                <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-4 text-xs text-slate-400">
-                  <span>CAS: 1310-65-2</span>
-                  <span className="w-1 h-1 rounded-full bg-slate-600 self-center" />
-                  <span>EC: 215-183-4</span>
-                  <span className="w-1 h-1 rounded-full bg-slate-600 self-center" />
-                  <span>Version: GHS 1.0</span>
+                {/* GHS07 - Exclamation Mark */}
+                <div className="w-12 h-12 md:w-14 md:h-14 bg-white rounded-md shadow-lg flex flex-col items-center justify-center border-2 border-red-300">
+                  <div className="flex flex-col items-center">
+                    <div className="w-1 h-3 bg-gray-800 rounded-full" />
+                    <div className="w-1 h-1 bg-gray-800 rounded-full mt-1" />
+                  </div>
+                  <span className="text-[6px] md:text-[7px] text-gray-600 font-bold mt-1">GHS07</span>
+                </div>
+              </div>
+
+              <div className="relative flex flex-col sm:flex-row items-center gap-6 md:gap-10">
+                <div className="shrink-0">
+                  <div className="bg-white rounded-2xl p-4 shadow-lg shadow-black/20">
+                    <img
+                      src={LOGO_URL}
+                      alt="ADDIMAX Logo"
+                      className="h-20 md:h-24 w-auto"
+                    />
+                  </div>
+                </div>
+                <div className="text-center sm:text-left flex-1 min-w-0 pr-16 md:pr-40 pb-16 md:pb-20">
+                  <p className="text-emerald-400 text-xs font-bold uppercase tracking-[0.2em] mb-2">
+                    Material Safety Data Sheet
+                  </p>
+                  <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                    ADDIMAX Lithium Hydroxide
+                  </h1>
+                  <p className="text-slate-400 text-sm mb-4">
+                    According to Regulation (EC) No. 1907/2006 (REACH), Annex II
+                  </p>
+                  <div className="flex flex-wrap justify-center sm:justify-start gap-2 max-w-full">
+                    <Badge className="bg-red-500/20 text-red-300 border-red-500/30 hover:bg-red-500/30 animate-[pulseGlow_3s_ease-in-out_infinite] text-[10px] sm:text-xs break-inside-avoid">
+                      H302 - Harmful if swallowed
+                    </Badge>
+                    <Badge className="bg-orange-500/20 text-orange-300 border-orange-500/30 hover:bg-orange-500/30 animate-[pulseGlow_3s_ease-in-out_infinite_1s] text-[10px] sm:text-xs break-inside-avoid">
+                      H314 - Causes severe skin burns
+                    </Badge>
+                    <Badge className="bg-yellow-500/20 text-yellow-300 border-yellow-500/30 hover:bg-yellow-500/30 animate-[pulseGlow_3s_ease-in-out_infinite_2s] text-[10px] sm:text-xs break-inside-avoid">
+                      H318 - Serious eye damage
+                    </Badge>
+                  </div>
+                  <div className="flex flex-wrap justify-center sm:justify-start gap-4 mt-4 text-xs text-slate-400">
+                    <span>CAS: 1310-65-2</span>
+                    <span className="w-1 h-1 rounded-full bg-slate-600 self-center" />
+                    <span>EC: 215-183-4</span>
+                    <span className="w-1 h-1 rounded-full bg-slate-600 self-center" />
+                    <span>Version: GHS 1.0</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Supplier Quick Info */}
-          <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 mb-6">
+          <div className="bg-white rounded-2xl border border-slate-200/80 border-l-[3px] border-l-emerald-500 shadow-md hover:shadow-lg p-5 mb-6 transition-all duration-300 hover:-translate-y-0.5">
             <div className="flex flex-col sm:flex-row items-start gap-4">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-2">
@@ -426,9 +480,51 @@ export default function SafetyDataSheet() {
             </div>
           </div>
 
+          {/* Key Stats Row */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+            <div className="bg-white rounded-xl border border-slate-200/80 border-l-[3px] border-l-emerald-500 p-4 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 animate-[floatUp_3s_ease-in-out_infinite]">
+              <div className="flex items-center gap-2.5 mb-1">
+                <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center">
+                  <div className="w-3 h-3 rounded-sm bg-emerald-500" />
+                </div>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Physical State</span>
+              </div>
+              <p className="text-sm font-bold text-slate-800 pl-[42px]">Solid</p>
+            </div>
+            <div className="bg-white rounded-xl border border-slate-200/80 border-l-[3px] border-l-slate-300 p-4 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 animate-[floatUp_3s_ease-in-out_infinite_0.5s]">
+              <div className="flex items-center gap-2.5 mb-1">
+                <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center">
+                  <div className="w-3 h-3 rounded-full bg-white border-2 border-slate-400" />
+                </div>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Colour</span>
+              </div>
+              <p className="text-sm font-bold text-slate-800 pl-[42px]">White</p>
+            </div>
+            <div className="bg-white rounded-xl border border-slate-200/80 border-l-[3px] border-l-blue-300 p-4 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 animate-[floatUp_3s_ease-in-out_infinite_1s]">
+              <div className="flex items-center gap-2.5 mb-1">
+                <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
+                  <svg className="w-3.5 h-3.5 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <path d="M12 5v14M5 12l7-7 7 7" strokeLinecap="round" strokeLinejoin="round" opacity="0.3" />
+                  </svg>
+                </div>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Odour</span>
+              </div>
+              <p className="text-sm font-bold text-slate-800 pl-[42px]">Odourless</p>
+            </div>
+            <div className="bg-white rounded-xl border border-slate-200/80 border-l-[3px] border-l-orange-300 p-4 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 animate-[floatUp_3s_ease-in-out_infinite_1.5s]">
+              <div className="flex items-center gap-2.5 mb-1">
+                <div className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center">
+                  <Shield className="w-3.5 h-3.5 text-orange-500" />
+                </div>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Flammability</span>
+              </div>
+              <p className="text-sm font-bold text-slate-800 pl-[42px]">Non-combustible</p>
+            </div>
+          </div>
+
           {/* ======== SECTION 1 ======== */}
           <div data-section="sec1" id="sec1" className="scroll-mt-20">
-            <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 mb-6">
+            <div className="bg-white rounded-2xl border border-slate-200/80 border-l-[3px] border-l-emerald-500 shadow-md hover:shadow-lg p-6 mb-6 transition-all duration-300 hover:-translate-y-0.5">
               <SectionHeader num="1" title="Identification of the substance/mixture and of the company/undertaking" />
 
               <SubSection>1.1 Product identifier</SubSection>
@@ -469,7 +565,7 @@ export default function SafetyDataSheet() {
 
           {/* ======== SECTION 2 ======== */}
           <div data-section="sec2" id="sec2" className="scroll-mt-20">
-            <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 mb-6">
+            <div className="bg-white rounded-2xl border border-slate-200/80 border-l-[3px] border-l-emerald-500 shadow-md hover:shadow-lg p-6 mb-6 transition-all duration-300 hover:-translate-y-0.5">
               <SectionHeader num="2" title="Hazards identification" />
 
               <SubSection>2.1 Classification of the substance or mixture</SubSection>
@@ -546,7 +642,7 @@ export default function SafetyDataSheet() {
 
           {/* ======== SECTION 3 ======== */}
           <div data-section="sec3" id="sec3" className="scroll-mt-20">
-            <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 mb-6">
+            <div className="bg-white rounded-2xl border border-slate-200/80 border-l-[3px] border-l-emerald-500 shadow-md hover:shadow-lg p-6 mb-6 transition-all duration-300 hover:-translate-y-0.5">
               <SectionHeader num="3" title="Composition/information on ingredients" />
               <SubSection>3.1 Substances</SubSection>
               <table className="w-full mb-4">
@@ -591,7 +687,7 @@ export default function SafetyDataSheet() {
 
           {/* ======== SECTION 4 ======== */}
           <div data-section="sec4" id="sec4" className="scroll-mt-20">
-            <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 mb-6">
+            <div className="bg-white rounded-2xl border border-slate-200/80 border-l-[3px] border-l-emerald-500 shadow-md hover:shadow-lg p-6 mb-6 transition-all duration-300 hover:-translate-y-0.5">
               <SectionHeader num="4" title="First aid measures" />
               <SubSection>4.1 Description of first aid measures</SubSection>
               <ParaBlock><span className="font-semibold">General notes</span></ParaBlock>
@@ -613,7 +709,7 @@ export default function SafetyDataSheet() {
 
           {/* ======== SECTION 5 ======== */}
           <div data-section="sec5" id="sec5" className="scroll-mt-20">
-            <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 mb-6">
+            <div className="bg-white rounded-2xl border border-slate-200/80 border-l-[3px] border-l-emerald-500 shadow-md hover:shadow-lg p-6 mb-6 transition-all duration-300 hover:-translate-y-0.5">
               <SectionHeader num="5" title="Firefighting measures" />
               <SubSection>5.1 Extinguishing media</SubSection>
               <ParaBlock><span className="font-semibold">Suitable extinguishing media</span></ParaBlock>
@@ -628,7 +724,7 @@ export default function SafetyDataSheet() {
 
           {/* ======== SECTION 6 ======== */}
           <div data-section="sec6" id="sec6" className="scroll-mt-20">
-            <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 mb-6">
+            <div className="bg-white rounded-2xl border border-slate-200/80 border-l-[3px] border-l-emerald-500 shadow-md hover:shadow-lg p-6 mb-6 transition-all duration-300 hover:-translate-y-0.5">
               <SectionHeader num="6" title="Accidental release measures" />
               <SubSection>6.1 Personal precautions, protective equipment and emergency procedures</SubSection>
               <ParaBlock><span className="font-semibold">For non-emergency personnel</span></ParaBlock>
@@ -651,7 +747,7 @@ export default function SafetyDataSheet() {
 
           {/* ======== SECTION 7 ======== */}
           <div data-section="sec7" id="sec7" className="scroll-mt-20">
-            <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 mb-6">
+            <div className="bg-white rounded-2xl border border-slate-200/80 border-l-[3px] border-l-emerald-500 shadow-md hover:shadow-lg p-6 mb-6 transition-all duration-300 hover:-translate-y-0.5">
               <SectionHeader num="7" title="Handling and storage" />
               <SubSection>7.1 Precautions for safe handling</SubSection>
               <ParaBlock><span className="font-semibold">Recommendations</span></ParaBlock>
@@ -686,7 +782,7 @@ export default function SafetyDataSheet() {
 
           {/* ======== SECTION 8 ======== */}
           <div data-section="sec8" id="sec8" className="scroll-mt-20">
-            <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 mb-6">
+            <div className="bg-white rounded-2xl border border-slate-200/80 border-l-[3px] border-l-emerald-500 shadow-md hover:shadow-lg p-6 mb-6 transition-all duration-300 hover:-translate-y-0.5">
               <SectionHeader num="8" title="Exposure controls/personal protection" />
               <SubSection>8.1 Control parameters</SubSection>
               <ParaBlock>Occupational exposure limit values (Workplace Exposure Limits)</ParaBlock>
@@ -816,7 +912,7 @@ export default function SafetyDataSheet() {
 
           {/* ======== SECTION 9 ======== */}
           <div data-section="sec9" id="sec9" className="scroll-mt-20">
-            <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 mb-6">
+            <div className="bg-white rounded-2xl border border-slate-200/80 border-l-[3px] border-l-emerald-500 shadow-md hover:shadow-lg p-6 mb-6 transition-all duration-300 hover:-translate-y-0.5">
               <SectionHeader num="9" title="Physical and chemical properties" />
               <SubSection>9.1 Information on basic physical and chemical properties</SubSection>
               <SdsTable>
@@ -827,23 +923,35 @@ export default function SafetyDataSheet() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  <KVRow label="Physical state" value="solid" />
-                  <KVRow label="Colour" value="white" />
-                  <KVRow label="Odour" value="odourless" />
+                  <TableRow className="border-b border-slate-100 transition-all duration-200 hover:bg-slate-50/50 hover:border-l-2 hover:border-l-emerald-300">
+                    <DataCell highlight>Physical state</DataCell>
+                    <DataCell><span className="inline-flex items-center gap-1.5"><span className="w-2 h-2 rounded-sm bg-emerald-500 shrink-0" /> solid</span></DataCell>
+                  </TableRow>
+                  <TableRow className="border-b border-slate-100 transition-all duration-200 hover:bg-slate-50/50 hover:border-l-2 hover:border-l-emerald-300">
+                    <DataCell highlight>Colour</DataCell>
+                    <DataCell><span className="inline-flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-gray-300 border border-gray-400 shrink-0" /> white</span></DataCell>
+                  </TableRow>
+                  <TableRow className="border-b border-slate-100 transition-all duration-200 hover:bg-slate-50/50 hover:border-l-2 hover:border-l-emerald-300">
+                    <DataCell highlight>Odour</DataCell>
+                    <DataCell><span className="inline-flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" /> odourless</span></DataCell>
+                  </TableRow>
                   <KVRow label="Melting point/freezing point" value="423.9 °C at 1,013 hPa" />
-                  <KVRow label="Boiling point or initial boiling point and boiling range" value="not determined" />
-                  <KVRow label="Flammability" value="non-combustible" />
-                  <KVRow label="Lower and upper explosion limit" value="not determined" />
-                  <KVRow label="Flash point" value="not applicable" />
-                  <KVRow label="Auto-ignition temperature" value="not determined" />
-                  <KVRow label="Decomposition temperature" value="not relevant" />
-                  <KVRow label="pH (value)" value="not applicable" />
-                  <KVRow label="Kinematic viscosity" value="not relevant" />
+                  <KVRow label="Boiling point or initial boiling point and boiling range" value="not determined" status="determined" />
+                  <TableRow className="border-b border-slate-100 transition-all duration-200 hover:bg-slate-50/50 hover:border-l-2 hover:border-l-emerald-300">
+                    <DataCell highlight>Flammability</DataCell>
+                    <DataCell><span className="inline-flex items-center gap-1.5"><span className="w-2 h-2 rounded-sm bg-orange-400 shrink-0" /> non-combustible</span></DataCell>
+                  </TableRow>
+                  <KVRow label="Lower and upper explosion limit" value="not determined" status="determined" />
+                  <KVRow label="Flash point" value="not applicable" status="applicable" />
+                  <KVRow label="Auto-ignition temperature" value="not determined" status="determined" />
+                  <KVRow label="Decomposition temperature" value="not relevant" status="relevant" />
+                  <KVRow label="pH (value)" value="not applicable" status="applicable" />
+                  <KVRow label="Kinematic viscosity" value="not relevant" status="relevant" />
                   <KVRow label="Water solubility" value="110 g/l at 20 °C" />
-                  <KVRow label="Partition coefficient n-octanol/water (log value)" value="not relevant (inorganic)" />
-                  <KVRow label="Vapour pressure" value="not determined" />
-                  <KVRow label="Density" value="not determined" />
-                  <KVRow label="Relative vapour density" value="information on this property is not available" />
+                  <KVRow label="Partition coefficient n-octanol/water (log value)" value="not relevant (inorganic)" status="relevant" />
+                  <KVRow label="Vapour pressure" value="not determined" status="determined" />
+                  <KVRow label="Density" value="not determined" status="determined" />
+                  <KVRow label="Relative vapour density" value="information on this property is not available" status="available" />
                   <KVRow label="Particle size" value="150 µm" />
                 </TableBody>
               </SdsTable>
@@ -855,7 +963,7 @@ export default function SafetyDataSheet() {
 
           {/* ======== SECTION 10 ======== */}
           <div data-section="sec10" id="sec10" className="scroll-mt-20">
-            <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 mb-6">
+            <div className="bg-white rounded-2xl border border-slate-200/80 border-l-[3px] border-l-emerald-500 shadow-md hover:shadow-lg p-6 mb-6 transition-all duration-300 hover:-translate-y-0.5">
               <SectionHeader num="10" title="Stability and reactivity" />
               <SubSection>10.1 Reactivity</SubSection>
               <ParaBlock>Concerning incompatibility: see below &quot;Conditions to avoid&quot; and &quot;Incompatible materials&quot;.</ParaBlock>
@@ -874,7 +982,7 @@ export default function SafetyDataSheet() {
 
           {/* ======== SECTION 11 ======== */}
           <div data-section="sec11" id="sec11" className="scroll-mt-20">
-            <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 mb-6">
+            <div className="bg-white rounded-2xl border border-slate-200/80 border-l-[3px] border-l-emerald-500 shadow-md hover:shadow-lg p-6 mb-6 transition-all duration-300 hover:-translate-y-0.5">
               <SectionHeader num="11" title="Toxicological information" />
               <SubSection>11.1 Information on toxicological effects</SubSection>
               <ParaBlock>Classification acc. to GHS</ParaBlock>
@@ -910,7 +1018,7 @@ export default function SafetyDataSheet() {
 
           {/* ======== SECTION 12 ======== */}
           <div data-section="sec12" id="sec12" className="scroll-mt-20">
-            <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 mb-6">
+            <div className="bg-white rounded-2xl border border-slate-200/80 border-l-[3px] border-l-emerald-500 shadow-md hover:shadow-lg p-6 mb-6 transition-all duration-300 hover:-translate-y-0.5">
               <SectionHeader num="12" title="Ecological information" />
               <SubSection>12.1 Toxicity</SubSection>
               <ParaBlock>Shall not be classified as hazardous to the aquatic environment.</ParaBlock>
@@ -931,7 +1039,7 @@ export default function SafetyDataSheet() {
 
           {/* ======== SECTION 13 ======== */}
           <div data-section="sec13" id="sec13" className="scroll-mt-20">
-            <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 mb-6">
+            <div className="bg-white rounded-2xl border border-slate-200/80 border-l-[3px] border-l-emerald-500 shadow-md hover:shadow-lg p-6 mb-6 transition-all duration-300 hover:-translate-y-0.5">
               <SectionHeader num="13" title="Disposal considerations" />
               <SubSection>13.1 Waste treatment methods</SubSection>
               <ParaBlock><span className="font-semibold">Waste treatment-relevant information</span></ParaBlock>
@@ -947,7 +1055,7 @@ export default function SafetyDataSheet() {
 
           {/* ======== SECTION 14 ======== */}
           <div data-section="sec14" id="sec14" className="scroll-mt-20">
-            <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 mb-6">
+            <div className="bg-white rounded-2xl border border-slate-200/80 border-l-[3px] border-l-emerald-500 shadow-md hover:shadow-lg p-6 mb-6 transition-all duration-300 hover:-translate-y-0.5">
               <SectionHeader num="14" title="Transport information" />
               <SubSection>14.1 UN number or ID number</SubSection>
               <SdsTable>
@@ -1038,7 +1146,7 @@ export default function SafetyDataSheet() {
 
           {/* ======== SECTION 15 ======== */}
           <div data-section="sec15" id="sec15" className="scroll-mt-20">
-            <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 mb-6">
+            <div className="bg-white rounded-2xl border border-slate-200/80 border-l-[3px] border-l-emerald-500 shadow-md hover:shadow-lg p-6 mb-6 transition-all duration-300 hover:-translate-y-0.5">
               <SectionHeader num="15" title="Regulatory information" />
               <SubSection>15.1 Safety, health and environmental regulations/legislation specific for the substance or mixture</SubSection>
               <ParaBlock><span className="font-semibold">Relevant provisions of the European Union (EU)</span></ParaBlock>
@@ -1101,7 +1209,7 @@ export default function SafetyDataSheet() {
 
           {/* ======== SECTION 16 ======== */}
           <div data-section="sec16" id="sec16" className="scroll-mt-20">
-            <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 mb-6">
+            <div className="bg-white rounded-2xl border border-slate-200/80 border-l-[3px] border-l-emerald-500 shadow-md hover:shadow-lg p-6 mb-6 transition-all duration-300 hover:-translate-y-0.5">
               <SectionHeader num="16" title="Other information" />
               <SubSection>Abbreviations and acronyms</SubSection>
               <SdsTable>
@@ -1179,8 +1287,15 @@ export default function SafetyDataSheet() {
       </div>
 
       {/* ===== FOOTER ===== */}
-      <footer className="border-t border-slate-200 bg-gradient-to-r from-slate-800 to-slate-900 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 py-6">
+      <footer className="border-t border-slate-200 bg-gradient-to-r from-slate-800 to-slate-900 mt-auto relative overflow-hidden">
+        {/* Geometric decoration pattern */}
+        <div className="absolute inset-0 opacity-[0.04]" style={{
+          backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.5) 20px, rgba(255,255,255,0.5) 21px),
+                           repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(255,255,255,0.5) 20px, rgba(255,255,255,0.5) 21px)`
+        }} />
+        <div className="absolute top-0 left-0 w-40 h-40 bg-emerald-500/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-60 h-40 bg-blue-500/5 rounded-full blur-3xl" />
+        <div className="relative max-w-7xl mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <img
@@ -1210,7 +1325,7 @@ export default function SafetyDataSheet() {
         <Button
           size="icon"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-6 right-6 z-50 h-10 w-10 rounded-full bg-slate-800 hover:bg-slate-700 text-white shadow-lg shadow-slate-900/20 transition-all duration-300"
+          className="fixed bottom-6 right-6 z-50 h-11 w-11 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
         >
           <ChevronUp className="w-5 h-5" />
         </Button>
