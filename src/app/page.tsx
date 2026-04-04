@@ -412,9 +412,9 @@ export default function SafetyDataSheet() {
                     Supplier
                   </span>
                 </div>
-                <p className="text-sm font-bold text-slate-800">SMK PETROCHEMICALS INDIA PVT. LTD.</p>
+                <p className="text-sm font-bold text-slate-800">IPEC Addimax Petroleum Products FZE</p>
                 <p className="text-xs text-slate-500 mt-1">
-                  Srv No. 97/1/1/2/2, Village Kala, Silvassa, DNH &amp; DD. Pin Code- 396230, INDIA.
+                  FZJOA10WS26, Jebel Ali Freezone, Dubai DU 16888, United Arab Emirates
                 </p>
               </div>
               <div className="shrink-0 bg-red-50 rounded-xl p-4 border border-red-100">
@@ -451,10 +451,9 @@ export default function SafetyDataSheet() {
 
               <SubSection>1.3 Details of the supplier of the safety data sheet</SubSection>
               <div className="pl-4 text-sm text-slate-700 leading-relaxed mb-4">
-                <p className="font-bold">SMK PETROCHEMICALS</p>
-                <p className="font-bold">INDIA PVT. LTD.</p>
-                <p>Srv No. 97/1/1/2/2, Village Kala, Silvassa, DNH &amp; DD.</p>
-                <p>Pin Code- 396230, INDIA.</p>
+                <p className="font-bold">IPEC Addimax Petroleum Products FZE</p>
+                <p>FZJOA10WS26, Jebel Ali Freezone, Dubai DU 16888,</p>
+                <p>United Arab Emirates.</p>
               </div>
 
               <SubSection>1.4 Emergency telephone number</SubSection>
@@ -1199,7 +1198,7 @@ export default function SafetyDataSheet() {
                 Safety Data Sheet &mdash; Version GHS 1.0
               </p>
               <p className="text-xs text-slate-500 mt-1">
-                &copy; SMK PETROCHEMICALS INDIA PVT. LTD.
+                &copy; IPEC Addimax Petroleum Products FZE
               </p>
             </div>
           </div>
