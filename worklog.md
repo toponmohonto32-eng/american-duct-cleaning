@@ -19,3 +19,28 @@ Stage Summary:
 - All content text and tables faithfully reproduced from the original PDF
 - ADDIMAX Lithium Hydroxide logo displayed in header and footer
 - Responsive design with sticky header and sticky footer
+---
+Task ID: 2
+Agent: Main Agent
+Task: Remove CAS/EC/GHS/Emergency info and make logo impressive
+
+Work Log:
+- Removed "GHS 1.0" and "CAS: 1310-65-2" badges from navbar, replaced with subtle live indicator
+- Removed "CAS: 1310-65-2", "EC: 215-183-4", "Version: GHS 1.0" metadata text from hero banner
+- Removed Emergency box with phone number 9821129715 from supplier quick info card
+- Removed Section 1.4 "Emergency telephone number" sub-section entirely (phone, telephone, telefax rows)
+- Updated footer from "Safety Data Sheet — Version GHS 1.0" to "Safety Data Sheet — ADDIMAX Lithium Hydroxide"
+- Enhanced all 6 logo instances with impressive visual effects:
+  1. Navbar logo: emerald glow border on hover with pulse animation + drop shadow
+  2. Mobile menu logo: glowing emerald backdrop
+  3. Sidebar logo: large glowing container with white card + pulse glow animation
+  4. Hero banner logo: large glowing aura with shadow-2xl + emerald-500 shadow
+  5. Supplier card logo: subtle emerald glow backdrop
+  6. Footer logo: glowing emerald container with white card + pulse glow animation
+- Ran lint check: no errors
+- Dev server confirmed running and compiling successfully
+
+Stage Summary:
+- All requested removals completed: CAS, EC, Version GHS 1.0, Emergency phone number removed
+- Logo now has impressive glow/shine/pulse effects throughout the page
+- File: src/app/page.tsx

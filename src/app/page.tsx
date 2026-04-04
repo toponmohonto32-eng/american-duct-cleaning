@@ -249,11 +249,14 @@ export default function SafetyDataSheet() {
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </Button>
-            <img
-              src={LOGO_URL}
-              alt="ADDIMAX Logo"
-              className="h-9 w-auto rounded"
-            />
+            <div className="relative group">
+              <div className="absolute -inset-1.5 bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500 rounded-xl opacity-0 group-hover:opacity-100 blur-sm transition-all duration-500 animate-[pulseGlow_3s_ease-in-out_infinite]" />
+              <img
+                src={LOGO_URL}
+                alt="ADDIMAX Logo"
+                className="relative h-10 w-auto rounded-lg drop-shadow-lg"
+              />
+            </div>
             <div className="hidden sm:block">
               <h1 className="text-sm font-bold text-slate-800 leading-tight">
                 Safety Data Sheet
@@ -264,18 +267,10 @@ export default function SafetyDataSheet() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <Badge
-              variant="outline"
-              className="hidden md:inline-flex border-emerald-200 bg-emerald-50 text-emerald-700 text-xs font-medium"
-            >
-              GHS 1.0
-            </Badge>
-            <Badge
-              variant="outline"
-              className="border-amber-200 bg-amber-50 text-amber-700 text-xs font-medium"
-            >
-              CAS: 1310-65-2
-            </Badge>
+            <div className="hidden md:flex items-center gap-1.5 text-[10px] font-medium text-slate-400">
+              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              Safety Data Sheet
+            </div>
           </div>
         </div>
       </header>
@@ -289,11 +284,14 @@ export default function SafetyDataSheet() {
           />
           <div className="absolute left-0 top-0 bottom-0 w-72 bg-white shadow-2xl overflow-y-auto">
             <div className="p-4 border-b border-slate-100 flex items-center gap-3">
-              <img
-                src={LOGO_URL}
-                alt="ADDIMAX Logo"
-                className="h-10 w-auto rounded"
-              />
+              <div className="relative">
+                <div className="absolute -inset-1 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-lg opacity-40 blur-sm" />
+                <img
+                  src={LOGO_URL}
+                  alt="ADDIMAX Logo"
+                  className="relative h-11 w-auto rounded-lg"
+                />
+              </div>
               <div>
                 <p className="text-sm font-bold text-slate-800">ADDIMAX</p>
                 <p className="text-xs text-slate-500">Lithium Hydroxide</p>
@@ -328,11 +326,16 @@ export default function SafetyDataSheet() {
             <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
               <div className="p-4 border-b border-slate-100 bg-gradient-to-br from-slate-50 to-white">
                 <div className="flex items-center gap-2 mb-3">
-                  <img
-                    src={LOGO_URL}
-                    alt="ADDIMAX Logo"
-                    className="h-11 w-auto rounded"
-                  />
+                  <div className="relative">
+                    <div className="absolute -inset-2 bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500 rounded-xl opacity-30 blur-md animate-[pulseGlow_3s_ease-in-out_infinite]" />
+                    <div className="relative bg-white rounded-xl p-1.5 shadow-lg">
+                      <img
+                        src={LOGO_URL}
+                        alt="ADDIMAX Logo"
+                        className="h-14 w-auto rounded-lg"
+                      />
+                    </div>
+                  </div>
                 </div>
                 <p className="text-[11px] font-bold text-slate-800 uppercase tracking-wider">
                   Table of Contents
@@ -411,12 +414,15 @@ export default function SafetyDataSheet() {
 
               <div className="relative flex flex-col sm:flex-row items-center gap-6 md:gap-10">
                 <div className="shrink-0">
-                  <div className="bg-white rounded-2xl p-4 shadow-lg shadow-black/20">
-                    <img
-                      src={LOGO_URL}
-                      alt="ADDIMAX Logo"
-                      className="h-20 md:h-24 w-auto"
-                    />
+                  <div className="relative">
+                    <div className="absolute -inset-3 bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500 rounded-3xl opacity-50 blur-lg animate-[pulseGlow_3s_ease-in-out_infinite]" />
+                    <div className="relative bg-white rounded-2xl p-5 shadow-2xl shadow-emerald-500/10">
+                      <img
+                        src={LOGO_URL}
+                        alt="ADDIMAX Logo"
+                        className="h-20 md:h-24 w-auto drop-shadow-lg"
+                      />
+                    </div>
                   </div>
                 </div>
                 <div className="text-center sm:text-left flex-1 min-w-0 pr-16 md:pr-40 pb-16 md:pb-20">
@@ -440,13 +446,7 @@ export default function SafetyDataSheet() {
                       H318 - Serious eye damage
                     </Badge>
                   </div>
-                  <div className="flex flex-wrap justify-center sm:justify-start gap-4 mt-4 text-xs text-slate-400">
-                    <span>CAS: 1310-65-2</span>
-                    <span className="w-1 h-1 rounded-full bg-slate-600 self-center" />
-                    <span>EC: 215-183-4</span>
-                    <span className="w-1 h-1 rounded-full bg-slate-600 self-center" />
-                    <span>Version: GHS 1.0</span>
-                  </div>
+
                 </div>
               </div>
             </div>
@@ -457,11 +457,14 @@ export default function SafetyDataSheet() {
             <div className="flex flex-col sm:flex-row items-start gap-4">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-2">
-                  <img
-                    src={LOGO_URL}
-                    alt="ADDIMAX"
-                    className="h-7 w-auto rounded"
-                  />
+                  <div className="relative">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-lg opacity-30 blur-sm" />
+                    <img
+                      src={LOGO_URL}
+                      alt="ADDIMAX"
+                      className="relative h-8 w-auto rounded-lg"
+                    />
+                  </div>
                   <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
                     Supplier
                   </span>
@@ -471,12 +474,7 @@ export default function SafetyDataSheet() {
                   FZJOA10WS26, Jebel Ali Freezone, Dubai DU 16888, United Arab Emirates
                 </p>
               </div>
-              <div className="shrink-0 bg-red-50 rounded-xl p-4 border border-red-100">
-                <p className="text-[10px] font-bold text-red-500 uppercase tracking-wider mb-1">
-                  Emergency
-                </p>
-                <p className="text-lg font-bold text-red-700">9821129715</p>
-              </div>
+
             </div>
           </div>
 
@@ -552,14 +550,7 @@ export default function SafetyDataSheet() {
                 <p>United Arab Emirates.</p>
               </div>
 
-              <SubSection>1.4 Emergency telephone number</SubSection>
-              <table className="w-full mb-4">
-                <tbody>
-                  <InfoRow label="Emergency information service" value="9821129715" />
-                  <InfoRow label="Telephone" value="" />
-                  <InfoRow label="Telefax" value="" />
-                </tbody>
-              </table>
+
             </div>
           </div>
 
@@ -1298,11 +1289,16 @@ export default function SafetyDataSheet() {
         <div className="relative max-w-7xl mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <img
-                src={LOGO_URL}
-                alt="ADDIMAX Logo"
-                className="h-10 w-auto rounded bg-white p-1"
-              />
+              <div className="relative">
+                <div className="absolute -inset-1.5 bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500 rounded-xl opacity-40 blur-sm animate-[pulseGlow_3s_ease-in-out_infinite]" />
+                <div className="relative bg-white rounded-xl p-1.5 shadow-lg">
+                  <img
+                    src={LOGO_URL}
+                    alt="ADDIMAX Logo"
+                    className="h-11 w-auto rounded-lg"
+                  />
+                </div>
+              </div>
               <div>
                 <p className="text-sm font-bold text-white">ADDIMAX</p>
                 <p className="text-xs text-slate-400">Lithium Hydroxide</p>
@@ -1310,7 +1306,7 @@ export default function SafetyDataSheet() {
             </div>
             <div className="text-center md:text-right">
               <p className="text-xs text-slate-400">
-                Safety Data Sheet &mdash; Version GHS 1.0
+                Safety Data Sheet &mdash; ADDIMAX Lithium Hydroxide
               </p>
               <p className="text-xs text-slate-500 mt-1">
                 &copy; IPEC Addimax Petroleum Products FZE
