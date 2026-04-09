@@ -1,24 +1,29 @@
 import { motion } from 'framer-motion'
-import { Wind, Leaf, Zap, Droplets } from 'lucide-react'
+import { Wind, Leaf, Zap, Droplets, ArrowRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 export default function Services() {
   const services = [
     {
+      slug: 'air-duct-cleaning',
       icon: Wind,
       title: 'Air Duct Cleaning',
       description: 'Deep cleaning of your entire duct system to remove dust and allergens',
     },
     {
+      slug: 'dryer-vent-cleaning',
       icon: Leaf,
       title: 'Dryer Vent Cleaning',
       description: 'Prevent fire hazards and improve dryer efficiency with expert cleaning',
     },
     {
+      slug: 'hvac-cleaning',
       icon: Zap,
       title: 'HVAC System Cleaning',
       description: 'Comprehensive HVAC maintenance for optimal performance and efficiency',
     },
     {
+      slug: 'mold-removal',
       icon: Droplets,
       title: 'Mold Inspection & Removal',
       description: 'Detect and safely remove mold growth in your air systems',
@@ -92,13 +97,15 @@ export default function Services() {
                 <p className="text-slate-600 leading-relaxed mb-6">
                   {service.description}
                 </p>
-                <motion.a
-                  href="#contact"
+                <Link
+                  to={`/service/${service.slug}`}
                   className="text-accent font-semibold hover:text-primary-500 transition-colors inline-flex items-center gap-2"
-                  whileHover={{ x: 5 }}
                 >
-                  Learn More →
-                </motion.a>
+                  Learn More
+                  <motion.span whileHover={{ x: 5 }}>
+                    <ArrowRight size={16} />
+                  </motion.span>
+                </Link>
               </motion.div>
             )
           })}

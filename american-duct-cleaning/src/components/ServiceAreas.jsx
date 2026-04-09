@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
-import { MapPin } from 'lucide-react'
+import { MapPin, ArrowRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 export default function ServiceAreas() {
   const cities = [
@@ -89,13 +90,15 @@ export default function ServiceAreas() {
           <p className="text-lg text-slate-600 mb-6">
             Don't see your area listed? We may still service your location!
           </p>
-          <motion.button
-            className="btn-primary"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+          <Link
+            to="/locations"
+            className="inline-flex items-center gap-2 btn-primary hover:opacity-90 transition"
           >
-            Check Service Availability
-          </motion.button>
+            View All Locations & Details
+            <motion.span whileHover={{ x: 5 }}>
+              <ArrowRight size={20} />
+            </motion.span>
+          </Link>
         </motion.div>
       </div>
     </section>

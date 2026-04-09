@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
-import { Menu, X, Phone } from 'lucide-react'
+import { Menu, X, Phone, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { Link, useLocation } from 'react-router-dom'
 
 export default function Header({ onContactClick }) {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const location = useLocation()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,11 +17,23 @@ export default function Header({ onContactClick }) {
   }, [])
 
   const navItems = [
-    { label: 'Services', href: '#services' },
-    { label: 'Why Us', href: '#why-us' },
-    { label: 'Process', href: '#process' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'Services', href: '#services', link: '/' },
+    { label: 'Locations', href: '/locations', link: '/locations' },
+    { label: 'Why Us', href: '#why-us', link: '/' },
+    { label: 'Contact', href: '#contact', link: '/' },
   ]
+
+  const handleNavClick = (item) => {
+    setIsOpen(false)
+    // If it's a link to another page, React Router will handle it
+    // If it's an anchor, scroll to it on the current page
+    if (item.href.startsWith('#')) {
+      const element = document.querySelector(item.href)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' })
+      }
+    }
+  }
 
   return (
     <motion.header
@@ -34,23 +48,36 @@ export default function Header({ onContactClick }) {
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
         {/* Logo */}
-        <motion.div
-          className="text-2xl font-bold text-gradient"
-          whileHover={{ scale: 1.05 }}
-        >
-          American Duct
-        </motion.div>
+        <Link to="/">
+          <motion.div
+            className="text-2xl font-bold text-gradient"
+            whileHover={{ scale: 1.05 }}
+          >
+            American Duct
+          </motion.div>
+        </Link>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
           {navItems.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className="text-slate-700 hover:text-orange-500 transition-colors duration-200 font-medium"
-            >
-              {item.label}
-            </a>
+            item.link === location.pathname ? (
+              <a
+                key={item.label}
+                href={item.href}
+                onClick={() => handleNavClick(item)}
+                className="text-slate-700 hover:text-orange-500 transition-colors duration-200 font-medium cursor-pointer"
+              >
+                {item.label}
+              </a>
+            ) : (
+              <Link
+                key={item.label}
+                to={item.link}
+                className="text-slate-700 hover:text-orange-500 transition-colors duration-200 font-medium"
+              >
+                {item.label}
+              </Link>
+            )
           ))}
         </div>
 
