@@ -1,0 +1,34 @@
+{
+  "name": "american-duct-cleaning",
+  "version": "1.0.0",
+  "description": "Professional air duct cleaning website - Orange County",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "duct cleaning",
+    "HVAC",
+    "air quality"
+  ],
+  "author": "American Duct Cleaning",
+  "license": "ISC",
+  "dependencies": {
+    "@vitejs/plugin-react": "6.0.1",
+    "framer-motion": "12.38.0",
+    "lucide-react": "1.8.0",
+    "react": "19.2.5",
+    "react-dom": "19.2.5",
+    "react-hook-form": "7.72.1",
+    "vite": "8.0.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.2",
+    "autoprefixer": "^10.4.27",
+    "postcss": "^8.5.9",
+    "tailwindcss": "^4.2.2"
+  }
+}
