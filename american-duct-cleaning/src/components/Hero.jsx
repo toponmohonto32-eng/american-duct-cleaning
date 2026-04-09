@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
-import { ArrowDown } from 'lucide-react'
+import { ArrowDown, Phone, CheckCircle } from 'lucide-react'
+import { FaAward, FaShieldAlt, FaClock } from 'react-icons/fa'
 
 export default function Hero({ onCTAClick }) {
   const containerVariants = {
@@ -22,6 +23,12 @@ export default function Hero({ onCTAClick }) {
     },
   }
 
+  const badges = [
+    { icon: <FaAward className="text-xl" />, text: '25+ Years Experience' },
+    { icon: <FaShieldAlt className="text-xl" />, text: '100% Satisfaction Guaranteed' },
+    { icon: <FaClock className="text-xl" />, text: 'Same-Day Service Available' },
+  ]
+
   return (
     <section className="relative min-h-screen bg-gradient-to-br from-primary-50 via-white to-slate-50 overflow-hidden pt-20">
       {/* Decorative background elements */}
@@ -42,50 +49,55 @@ export default function Hero({ onCTAClick }) {
                 className="text-5xl md:text-6xl font-bold text-slate-900 leading-tight mb-6"
                 variants={itemVariants}
               >
-                Breathe Cleaner Air in Your Home
+                Breathe Cleaner, Healthier Air
               </motion.h1>
               <motion.p
                 className="text-xl text-slate-600 leading-relaxed"
                 variants={itemVariants}
               >
-                Trusted duct cleaning services in Orange County. Expert technicians remove dust, allergens, and pollutants to improve your indoor air quality and protect your family's health.
+                Professional air duct, HVAC, and dryer vent cleaning services in Orange County. Our expert technicians remove dust, allergens, and pollutants to improve your indoor air quality and protect your family's health.
               </motion.p>
             </div>
 
-            {/* Trust Line */}
-            <motion.div className="space-y-4" variants={itemVariants}>
-              <div className="flex items-center gap-3">
-                <div className="w-6 h-6 bg-accent rounded-full flex items-center justify-center text-white text-sm font-bold">✓</div>
-                <span className="text-slate-700 font-medium">Locally Trusted in Orange County</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-6 h-6 bg-accent rounded-full flex items-center justify-center text-white text-sm font-bold">✓</div>
-                <span className="text-slate-700 font-medium">Certified & Experienced Technicians</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-6 h-6 bg-accent rounded-full flex items-center justify-center text-white text-sm font-bold">✓</div>
-                <span className="text-slate-700 font-medium">Same-Day Service Available</span>
-              </div>
+            {/* Trust Badges */}
+            <motion.div className="space-y-3" variants={itemVariants}>
+              {badges.map((badge, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <div className="text-accent">{badge.icon}</div>
+                  <span className="text-slate-700 font-medium">{badge.text}</span>
+                </div>
+              ))}
             </motion.div>
 
             {/* CTA Buttons */}
-            <motion.div className="flex flex-wrap gap-4 pt-4" variants={itemVariants}>
+            <motion.div className="flex flex-col sm:flex-row gap-4 pt-4" variants={itemVariants}>
               <motion.button
                 onClick={onCTAClick}
-                className="btn-primary"
+                className="btn-primary flex items-center justify-center gap-2 text-lg px-8 py-4"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
+                <Phone size={20} />
                 Get Free Quote
               </motion.button>
               <motion.button
-                className="btn-secondary"
+                onClick={onCTAClick}
+                className="btn-secondary flex items-center justify-center gap-2 text-lg px-8 py-4"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Book Inspection
+                <CheckCircle size={20} />
+                Book Service
               </motion.button>
             </motion.div>
+
+            {/* Trust Line */}
+            <motion.p
+              className="text-sm text-slate-500 pt-4"
+              variants={itemVariants}
+            >
+              ✓ Licensed & Insured | NADCA Certified | Same-Day Availability
+            </motion.p>
           </motion.div>
 
           {/* Visual Element */}
@@ -110,7 +122,7 @@ export default function Hero({ onCTAClick }) {
                 transition={{ duration: 4, repeat: Infinity }}
               >
                 <div className="text-6xl mb-4">💨</div>
-                <p className="text-primary-500 font-bold text-lg">Fresh Air</p>
+                <p className="text-primary-500 font-bold text-lg">Premium Air Quality</p>
               </motion.div>
             </div>
           </motion.div>

@@ -1,27 +1,27 @@
 import { motion } from 'framer-motion'
-import { Wind, Leaf, Zap, Droplets } from 'lucide-react'
+import { FaLungs, FaAllergies, FaLeaf, FaSmile } from 'react-icons/fa'
 
 export default function Benefits() {
   const benefits = [
     {
-      icon: Wind,
-      title: 'Cleaner Air Quality',
-      description: 'Remove dust, bacteria, and pollutants that circulate in your home',
+      icon: FaLungs,
+      title: 'Healthier Breathing',
+      description: 'Remove dust, bacteria, mold, and pollutants that circulate in your home daily',
     },
     {
-      icon: Leaf,
+      icon: FaAllergies,
       title: 'Reduce Allergies',
-      description: 'Eliminate allergens and irritants for healthier breathing',
+      description: 'Eliminate allergens and respiratory irritants for cleaner indoor air',
     },
     {
-      icon: Zap,
-      title: 'Boost Efficiency',
-      description: 'Improve HVAC performance and lower your energy bills',
+      icon: FaLeaf,
+      title: 'Save on Energy',
+      description: 'Improve HVAC efficiency by up to 20% and lower monthly energy bills',
     },
     {
-      icon: Droplets,
-      title: 'Remove Odors',
-      description: 'Eliminate unpleasant smells caused by dust and mold',
+      icon: FaSmile,
+      title: 'Peace of Mind',
+      description: 'Enjoy fresh air and the confidence of a professionally maintained system',
     },
   ]
 
@@ -75,16 +75,16 @@ export default function Benefits() {
             return (
               <motion.div
                 key={idx}
-                className="card-hover bg-slate-50 rounded-2xl p-8 border border-slate-100"
+                className="card-hover bg-slate-50 rounded-2xl p-8 border border-slate-100 hover:border-accent hover:shadow-lg transition-all"
                 variants={itemVariants}
                 whileHover={{ scale: 1.05 }}
               >
                 <motion.div
-                  className="w-14 h-14 bg-accent/10 rounded-xl flex items-center justify-center mb-6"
+                  className="w-14 h-14 bg-accent/10 rounded-xl flex items-center justify-center mb-6 text-2xl"
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.6 }}
                 >
-                  <Icon className="text-accent" size={28} />
+                  <Icon className="text-accent" />
                 </motion.div>
                 <h3 className="text-lg font-bold text-slate-900 mb-3">
                   {benefit.title}

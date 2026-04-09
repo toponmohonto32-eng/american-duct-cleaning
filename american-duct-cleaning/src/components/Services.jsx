@@ -1,32 +1,33 @@
 import { motion } from 'framer-motion'
-import { Wind, Leaf, Zap, Droplets, ArrowRight } from 'lucide-react'
+import { FaFan, FaFire, FaSnowflake, FaShieldAlt } from 'react-icons/fa'
+import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 export default function Services() {
   const services = [
     {
       slug: 'air-duct-cleaning',
-      icon: Wind,
+      icon: FaFan,
       title: 'Air Duct Cleaning',
-      description: 'Deep cleaning of your entire duct system to remove dust and allergens',
+      description: 'Deep cleaning of your entire duct system to remove dust, allergens, and contaminants',
     },
     {
       slug: 'dryer-vent-cleaning',
-      icon: Leaf,
+      icon: FaFire,
       title: 'Dryer Vent Cleaning',
-      description: 'Prevent fire hazards and improve dryer efficiency with expert cleaning',
+      description: 'Prevent house fires and improve efficiency by removing dangerous lint buildup',
     },
     {
       slug: 'hvac-cleaning',
-      icon: Zap,
+      icon: FaSnowflake,
       title: 'HVAC System Cleaning',
-      description: 'Comprehensive HVAC maintenance for optimal performance and efficiency',
+      description: 'Comprehensive heating and cooling system maintenance for peak efficiency',
     },
     {
       slug: 'mold-removal',
-      icon: Droplets,
+      icon: FaShieldAlt,
       title: 'Mold Inspection & Removal',
-      description: 'Detect and safely remove mold growth in your air systems',
+      description: 'Detect and safely remove dangerous mold growth from your air systems',
     },
   ]
 
@@ -80,16 +81,16 @@ export default function Services() {
             return (
               <motion.div
                 key={idx}
-                className="card-hover bg-white rounded-2xl p-8 border border-slate-200 shadow-premium"
+                className="card-hover bg-white rounded-2xl p-8 border border-slate-200 shadow-premium hover:shadow-xl transition-shadow"
                 variants={itemVariants}
                 whileHover={{ y: -8 }}
               >
                 <motion.div
-                  className="w-16 h-16 bg-gradient-to-br from-primary-500 to-accent rounded-xl flex items-center justify-center mb-6 text-white"
+                  className="w-16 h-16 bg-gradient-to-br from-primary-500 to-accent rounded-xl flex items-center justify-center mb-6 text-white text-2xl"
                   whileHover={{ rotate: -10, scale: 1.1 }}
                   transition={{ type: 'spring', stiffness: 400 }}
                 >
-                  <Icon size={32} />
+                  <Icon />
                 </motion.div>
                 <h3 className="text-xl font-bold text-slate-900 mb-3">
                   {service.title}

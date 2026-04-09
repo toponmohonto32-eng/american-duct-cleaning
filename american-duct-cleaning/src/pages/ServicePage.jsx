@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Check, ChevronLeft, ArrowRight } from 'lucide-react'
+import { FaFan, FaFire, FaSnowflake, FaShieldAlt } from 'react-icons/fa'
 
 const servicesData = {
   'air-duct-cleaning': {
